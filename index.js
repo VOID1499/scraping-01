@@ -2,7 +2,7 @@
 import { CronJob } from "cron";
 import axios from "axios";
 import dotenv from "dotenv";
-import { writeFile } from 'fs/promises';
+import { writeFile ,readFile } from 'fs/promises';
 import { fileURLToPath } from 'url';
 import path from 'path';
 dotenv.config();
@@ -25,7 +25,7 @@ async function getRandomImageUrl() {
   });
 }
 
-async function downloadImage(url) {
+async function downloadImage() {
 
   return new Promise(async (resolve, reject) => {
     try {
@@ -33,13 +33,16 @@ async function downloadImage(url) {
         Authorization: process.env.UNSPLASH_KEY,
       };
       const res = await axios.get(url, { headers, responseType: "stream" });
-    
+      
       const currentModulePath = fileURLToPath(import.meta.url);
       const currenPathDir = path.dirname(currentModulePath);
-      const savePath = path.resolve(currenPathDir, 'images', 'image.jpg');
+
+      const savePath = path.resolve(currenPathDir, 'images', 'image2.jpg');
 
       await writeFile(savePath,res.data)
-      resolve("Imagen descargada")
+
+      resolve(`Imagen descargada y aguardad en ${savePath}`)
+   
     } catch (error) {
       reject(error)
     }
@@ -51,7 +54,7 @@ const job = new CronJob(
   async () => {
     try {
       const url = await getRandomImageUrl();
-      const res = await downloadImage(url)
+      const res = await downloadImage()
       console.log(res)
     } catch (error) {
         console.log(error)
