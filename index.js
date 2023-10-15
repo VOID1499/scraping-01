@@ -7,6 +7,9 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 dotenv.config();
 
+const currentModulePath = fileURLToPath(import.meta.url);
+console.log(`Directorio raiz ${currentModulePath}`)
+
 async function getRandomImageUrl() {
   return new Promise(async (resolve, reject) => {
     try {
@@ -16,6 +19,7 @@ async function getRandomImageUrl() {
       };
       const res = await axios.get(url, { headers });
       let urlDownloadImage = `${res.data[0].links.download}&force=true&w=640`;
+      console.log(`Url de la imagen  ${urlDownloadImage}`)
       resolve(urlDownloadImage);
     } catch (error) {
       reject(error);
@@ -33,7 +37,7 @@ async function downloadImage(url) {
       
       const currentModulePath = fileURLToPath(import.meta.url);
         
-      const savePath = path.join(path.dirname(currentModulePath), 'imagen_descargada.jpg');
+      const savePath = path.join(path.dirname(currentModulePath),'imagen_descargada.jpg');
       await writeFile(savePath,res.data)
       resolve("Imagen descargada")
     } catch (error) {
@@ -43,7 +47,7 @@ async function downloadImage(url) {
 }
 
 const job = new CronJob(
-  "0 */2 * * * *",
+  "0 */1 * * * *",
   async () => {
     try {
       const url = await getRandomImageUrl();
