@@ -7,8 +7,6 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 dotenv.config();
 
-const currentModulePath = fileURLToPath(import.meta.url);
-console.log(`Directorio raiz ${currentModulePath}`)
 
 async function getRandomImageUrl() {
   return new Promise(async (resolve, reject) => {
@@ -19,7 +17,7 @@ async function getRandomImageUrl() {
       };
       const res = await axios.get(url, { headers });
       let urlDownloadImage = `${res.data[0].links.download}&force=true&w=640`;
-      console.log(`Url de la imagen  ${urlDownloadImage}`)
+      //console.log(`Url de la imagen  ${urlDownloadImage}`)
       resolve(urlDownloadImage);
     } catch (error) {
       reject(error);
@@ -28,16 +26,18 @@ async function getRandomImageUrl() {
 }
 
 async function downloadImage(url) {
+
   return new Promise(async (resolve, reject) => {
     try {
       const headers = {
         Authorization: process.env.UNSPLASH_KEY,
       };
       const res = await axios.get(url, { headers, responseType: "stream" });
-      
+    
       const currentModulePath = fileURLToPath(import.meta.url);
-        
-      const savePath = path.join(path.dirname(currentModulePath),'imagen_descargada.jpg');
+      const currenPathDir = path.dirname(currentModulePath);
+      const savePath = path.resolve(currenPathDir, 'images', 'image.jpg');
+
       await writeFile(savePath,res.data)
       resolve("Imagen descargada")
     } catch (error) {
@@ -47,7 +47,7 @@ async function downloadImage(url) {
 }
 
 const job = new CronJob(
-  "0 */1 * * * *",
+  "*/5 * * * * *",
   async () => {
     try {
       const url = await getRandomImageUrl();
