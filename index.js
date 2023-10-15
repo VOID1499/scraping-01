@@ -43,7 +43,7 @@ async function downloadImage(url) {
 }
 
 const job = new CronJob(
-  "*/5 * * * * *",
+  "0 */2 * * * *",
   async () => {
     try {
       const url = await getRandomImageUrl();
