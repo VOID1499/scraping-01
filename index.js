@@ -1,4 +1,4 @@
-import puppeter from "puppeteer";
+//import puppeter from "puppeteer";
 import { CronJob } from "cron";
 import axios from "axios";
 import dotenv from "dotenv";
@@ -59,7 +59,7 @@ const job = new CronJob(
 
 
 
-
+/*
 
 async function login(username,password) {
   const browser = await puppeter.launch({
@@ -89,5 +89,5 @@ async function login(username,password) {
     //const page2 = await browser.newPage();
     //page2.setDefaultNavigationTimeout(90000);
     //await page.goto("https://www.instagram.com/void.1499");
-   */
-}
+  }
+  */
