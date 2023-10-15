@@ -25,7 +25,7 @@ async function getRandomImageUrl() {
   });
 }
 
-async function downloadImage() {
+async function downloadImage(url) {
 
   return new Promise(async (resolve, reject) => {
     try {
@@ -54,7 +54,7 @@ const job = new CronJob(
   async () => {
     try {
       const url = await getRandomImageUrl();
-      const res = await downloadImage()
+      const res = await downloadImage(url)
       console.log(res)
     } catch (error) {
         console.log(error)
