@@ -61,7 +61,7 @@ const job = new CronJob(
 
 
 
-async function login() {
+async function login(username,password) {
   const browser = await puppeter.launch({
     headless: false,
     ignoreHTTPSErrors: true,
@@ -72,8 +72,8 @@ async function login() {
 
   const inputUserName = await page.waitForSelector('input[name="username"]');
   const inputPassword = await page.waitForSelector('input[name="password"]');
-  await inputUserName.type("void.1499", { delay: 0 });
-  await inputPassword.type("volivearop12", { delay: 0 });
+  await inputUserName.type(username, { delay: 0 });
+  await inputPassword.type(password, { delay: 0 });
   await page.click('button[type="submit"]');
   //login
 
